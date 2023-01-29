@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "e6eef500-f74e-4f84-b8f2-a061626fad12",
+    "name": "database_food",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23648979"
+  },
+  "item": [
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "getLikeByUserId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{domain}}/user/getLikeByUserId/10",
+              "host": ["{{domain}}"],
+              "path": ["user", "getLikeByUserId", "10"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getRateByUserId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{domain}}/user/getRateByUserId/1",
+              "host": ["{{domain}}"],
+              "path": ["user", "getRateByUserId", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "orderFood",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"foodId\":4,\r\n    \"userId\":5,\r\n    \"amount\":2,\r\n    \"arrSubId\":\"[1,10]\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{domain}}/user/orderFood",
+              "host": ["{{domain}}"],
+              "path": ["user", "orderFood"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "restaurant",
+      "item": [
+        {
+          "name": "toggleLikeRestaurantById",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{domain}}/restaurant/toggleLikeRestaurantById/1",
+              "host": ["{{domain}}"],
+              "path": ["restaurant", "toggleLikeRestaurantById", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getLikeByRestaurantId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{domain}}/restaurant/getLikeByRestaurantId/1",
+              "host": ["{{domain}}"],
+              "path": ["restaurant", "getLikeByRestaurantId", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getRateByRestaurantId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{domain}}/restaurant/getRateByRestaurantId/2",
+              "host": ["{{domain}}"],
+              "path": ["restaurant", "getRateByRestaurantId", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "rateRestaurantById",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":5,\r\n    \"amount\":5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{domain}}/restaurant/rateRestaurantById/2",
+              "host": ["{{domain}}"],
+              "path": ["restaurant", "rateRestaurantById", "2"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "domain",
+      "value": "localhost:8080/api",
+      "type": "string"
+    }
+  ]
+}

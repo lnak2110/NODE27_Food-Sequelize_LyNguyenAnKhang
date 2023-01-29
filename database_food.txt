@@ -1,0 +1,230 @@
+-- CREATE DATABASE, TABLES AND INSERT VALUES.
+
+DROP DATABASE IF EXISTS `database_food`;
+CREATE DATABASE `database_food`;
+USE `database_food`;
+
+DROP TABLE IF EXISTS `food_type`;
+CREATE TABLE `food_type` (
+  `type_id` int NOT NULL AUTO_INCREMENT,
+  `type_name` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`type_id`)
+);
+
+INSERT INTO `food_type` (`type_id`, `type_name`) VALUES
+(1,	'Thức uống'),
+(2,	'Thức ăn nhanh'),
+(3,	'Món nước'),
+(4,	'Ăn vặt'),
+(5,	'Chay');
+
+DROP TABLE IF EXISTS `food`;
+CREATE TABLE `food` (
+  `food_id` int NOT NULL AUTO_INCREMENT,
+  `food_name` VARCHAR(255) DEFAULT NULL,
+  `image` VARCHAR(255) DEFAULT NULL,
+  `price` int DEFAULT NULL,
+  `desc` VARCHAR(255) DEFAULT NULL,
+  `type_id` int DEFAULT NULL,
+  PRIMARY KEY (`food_id`),
+  KEY `type_id` (`type_id`),
+  FOREIGN KEY (`type_id`) REFERENCES `food_type` (`type_id`)
+);
+
+INSERT INTO `food` (`food_id`, `food_name`, `image`, `price`, `desc`, `type_id`) VALUES
+(1,	'Coke',		'https://medicare.vn/wp-content/uploads/2021/01/0063149.jpg',	5,	'coca cola',	1),
+(2,	'Heniken',	'https://minhcaumart.vn/media/com_eshop/products/8934822212339.jpg',	10,	'bia',	1),
+(3,	'Burger',	'https://burgerking.vn/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/c/r/crunchy_whp-min_1.jpg',	7,	'bánh bơ gơ',	2),
+(4,	'Hủ tiếu',	'https://daubepgiadinh.vn/wp-content/uploads/2018/05/hinh-hu-tiu-nam-vang.jpg',	30,	'hủ tiếu gõ',	3),
+(5,	'Bún bò',	'https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg',	50,	'bún bò',	3),
+(6,	'Khoai tây chiên',	'http://icdn.dantri.com.vn/zoom/1200_630/2017/khoai-tay-chien-1497363342895.jpg',	100,	'khoai chiên',	2),
+(7,	'Sandwich',	'https://monngonmoingay.com/wp-content/uploads/2020/12/sandwich-kep-cha-tom-500.jpg',	2,	'bánh săn quýt',	2),
+(8,	'Đồ chay',	'https://cdn.tgdd.vn/Files/2022/03/21/1421421/tong-hop-16-cach-lam-mon-chay-thanh-dam-dinh-duong-tai-nha-202203211050443101.jpg',	1,	'đồ ăn chay',	5),
+(9,	'Bánh tráng',	'https://res.klook.com/image/upload/q_85/c_fill,w_750/v1596008298/blog/eibedalo0wncojkerkpg.jpg',	33,	'bánh tráng',	4),
+(10,	'xúc xích',	'https://www.tvpfood.com/image/cache/catalog/product/san-pham-xien-que-tiec/xuc-xich-berlin-03-1024x1024.png',	22,	'xúc xích',	4);
+
+DROP TABLE IF EXISTS `sub_food`;
+CREATE TABLE `sub_food` (
+  `sub_id` int NOT NULL AUTO_INCREMENT,
+  `sub_name` VARCHAR(255) DEFAULT NULL,
+  `sub_price` int DEFAULT NULL,
+  `food_id` int DEFAULT NULL,
+  PRIMARY KEY (`sub_id`),
+  KEY `food_id` (`food_id`),
+  FOREIGN KEY (`food_id`) REFERENCES `food` (`food_id`)
+);
+
+INSERT INTO `sub_food` (`sub_id`, `sub_name`, `sub_price`, `food_id`) VALUES
+(1,	'Hành phi',	1,	4),
+(2,	'Hành phi',	1,	5),
+(3,	'Hành phi',	1,	8),
+(4,	'Trân châu',	2,	1),
+(5,	'Trân châu',	2,	2),
+(6,	'Tương ớt',	2,	3),
+(7,	'Tương ớt',	2,	6),
+(8,	'Tương ớt',	2,	9),
+(9,	'Tương ớt',	2,	10),
+(10,	'Tôm khô',	3,	4),
+(11,	'Tôm khô',	3,	5);
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `full_name` VARCHAR(255) DEFAULT NULL,
+  `email` VARCHAR(255) DEFAULT NULL,
+  `password` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+);
+
+INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`) VALUES
+(1,	'Tony',		'tony@gmail.com',	'1234'),
+(2,	'John',		'john@gmail.com',	'1234'),
+(3,	'Peter',	'peter@gmail.com',	'1234'),
+(4,	'Kang',		'kang@gmail.com',	'1234'),
+(5,	'Jane',		'jane@gmail.com',	'1234'),
+(6,	'Tom',		'tom@gmail.com',	'1234'),
+(7,	'May',		'may@gmail.com',	'1234'),
+(8,	'Brock',	'brock@gmail.com',	'1234'),
+(9,	'Dan',		'dan@gmail.com',	'1234'),
+(10,	'Jerry',	'jerry@gmail.com',	'1234');
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `user_id` int NOT NULL,
+  `food_id` int NOT NULL,
+  `amount` int DEFAULT NULL,
+  `code` VARCHAR(255) DEFAULT NULL,
+  `arr_sub_id` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`food_id`),
+  KEY `food_id` (`food_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  FOREIGN KEY (`food_id`) REFERENCES `food` (`food_id`)
+);
+
+INSERT INTO `order` (`user_id`, `food_id`, `amount`, `code`, `arr_sub_id`) VALUES
+(1,	1,	3,	'',	'[1,2]'),
+(1,	2,	2,	'',	'[4,5]'),
+(3,	1,	1,	'',	''),
+(3,	4,	1,	'',	''),
+(3,	5,	5,	'',	''),
+(3,	8,	10,	'',	''),
+(3,	9,	10,	'',	'[1,2,3]'),
+(3,	10,	10,	'',	'');
+
+DROP TABLE IF EXISTS `restaurant`;
+CREATE TABLE `restaurant` (
+  `res_id` int NOT NULL AUTO_INCREMENT,
+  `res_name` VARCHAR(255) DEFAULT NULL,
+  `image` VARCHAR(255) DEFAULT NULL,
+  `desc` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`res_id`)
+);
+
+INSERT INTO `restaurant` (`res_id`, `res_name`, `image`, `desc`) VALUES
+(1,	'Phúc Long',	'https://static.mservice.io/placebrand/s/momo-upload-api-200218150929-637176353692616410.jpg',	'pl'),
+(2,	'KFC',		'https://locations.kfc.com/permanent-b0b701/assets/images/kfc-hero.ed57ffa2.jpg',	'kfc'),
+(3,	'Kichi kichi',	'https://aeonmall-haiphong-lechan.com.vn/wp-content/uploads/2020/09/25.-kichi-kichi.jpg',	'kckc');
+
+DROP TABLE IF EXISTS `like_res`;
+CREATE TABLE `like_res` (
+  `user_id` int NOT NULL,
+  `res_id` int NOT NULL,
+  `date_like` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`res_id`),
+  KEY `res_id` (`res_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  FOREIGN KEY (`res_id`) REFERENCES `restaurant` (`res_id`)
+);
+
+INSERT INTO `like_res` (`user_id`, `res_id`, `date_like`) VALUES
+(1,	1,	'2022-01-01 09:00:00'),
+(1,	2,	'2022-01-01 09:00:00'),
+(1,	3,	'2022-01-01 09:00:00'),
+(2,	2,	'2022-01-01 09:00:00'),
+(2,	3,	'2022-01-01 09:00:00'),
+(3,	1,	'2022-01-01 09:00:00'),
+(4,	2,	'2022-01-01 09:00:00'),
+(5,	3,	'2022-01-01 09:00:00'),
+(7,	1,	'2022-01-01 09:00:00'),
+(7,	2,	'2022-01-01 09:00:00'),
+(7,	3,	'2022-01-01 09:00:00'),
+(8,	2,	'2022-01-01 09:00:00'),
+(10,	3,	'2022-01-01 09:00:00');
+
+DROP TABLE IF EXISTS `rate_res`;
+CREATE TABLE `rate_res` (
+  `user_id` int NOT NULL,
+  `res_id` int NOT NULL,
+  `amount` int DEFAULT NULL,
+  `date_rate` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`res_id`),
+  KEY `res_id` (`res_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  FOREIGN KEY (`res_id`) REFERENCES `restaurant` (`res_id`)
+);
+
+INSERT INTO `rate_res` (`user_id`, `res_id`, `amount`, `date_rate`) VALUES
+(1,	2,	4,	'2022-01-01 09:00:00'),
+(1,	3,	5,	'2022-01-01 09:00:00'),
+(2,	1,	3,	'2022-01-01 09:00:00'),
+(2,	3,	3,	'2022-01-01 09:00:00');
+
+-- QUERY DATA.
+
+-- Tìm 5 người đã like nhà hàng nhiều nhất.
+SELECT u.full_name, COUNT(l_r.user_id) AS like_count
+FROM user AS u
+JOIN like_res AS l_r ON u.user_id = l_r.user_id
+GROUP BY u.full_name
+ORDER BY like_count DESC 
+LIMIT 5;
+
+-- Tìm 2 nhà hàng có lượt like nhiều nhất.
+SELECT r.res_name, COUNT(l_r.res_id) AS like_count
+FROM restaurant AS r
+JOIN like_res AS l_r ON r.res_id = l_r.res_id
+GROUP BY r.res_name
+ORDER BY like_count DESC 
+LIMIT 2;
+
+-- Tìm người đã đặt hàng nhiều nhất.
+SELECT u.user_id, u.full_name, COUNT(o.user_id) AS order_count
+FROM user AS u
+JOIN `order` AS o ON u.user_id= o.user_id
+GROUP BY u.user_id
+ORDER BY order_count DESC 
+LIMIT 1;
+
+-- Tìm người dùng không hoạt động trong hệ thống (không đặt hàng, không like, không đánh giá nhà hàng).
+-- COALESCE: Change NULL to 0
+SELECT u.user_id, u.full_name, 
+       COALESCE(o.order_count, 0) AS order_count, 
+       COALESCE(l_r.like_count, 0) AS like_count,
+       COALESCE(r_r.rate_count, 0) AS rate_count
+FROM user AS u
+-- Stackoverflow: Two SQL LEFT JOINS produce incorrect result
+LEFT JOIN ( 
+  SELECT user_id, COUNT(user_id) AS order_count
+  FROM `order`
+  GROUP BY user_id
+  ) o ON u.user_id = o.user_id
+LEFT JOIN (
+  SELECT user_id, COUNT(user_id) AS like_count
+  FROM like_res
+  GROUP BY user_id
+  ) l_r ON u.user_id = l_r.user_id
+LEFT JOIN (
+  SELECT user_id, COUNT(user_id) AS rate_count
+  FROM rate_res
+  GROUP BY user_id
+  ) r_r ON u.user_id = r_r.user_id
+WHERE o.order_count IS NULL AND l_r.like_count IS NULL AND r_r.rate_count IS NULL;
+
+-- Tính trung bình sub_food của một food.
+SELECT f.food_id, f.food_name, 
+       COALESCE(GROUP_CONCAT(s_f.sub_name SEPARATOR ', '), 0) AS sub_food, 
+       COALESCE(AVG(s_f.sub_price), 0) AS average_sub_price
+FROM food AS f
+LEFT JOIN sub_food AS s_f
+ON f.food_id = s_f.food_id
+GROUP BY f.food_id;
